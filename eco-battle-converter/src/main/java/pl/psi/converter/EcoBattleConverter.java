@@ -12,6 +12,7 @@ import pl.psi.creatures.NecropolisFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pl.psi.hero.EconomyHero;
 
 public class EcoBattleConverter
 {
