@@ -7,7 +7,6 @@ import pl.psi.EconomyEngine;
 import pl.psi.converter.EcoBattleConverter;
 import pl.psi.creatures.EconomyCreature;
 import pl.psi.creatures.EconomyNecropolisFactory;
-import pl.psi.hero.EconomyHero;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

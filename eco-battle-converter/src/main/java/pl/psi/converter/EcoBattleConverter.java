@@ -8,7 +8,6 @@ import pl.psi.Hero;
 import pl.psi.creatures.Creature;
 import pl.psi.gui.MainBattleController;
 import pl.psi.creatures.NecropolisFactory;
-import pl.psi.hero.EconomyHero;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
