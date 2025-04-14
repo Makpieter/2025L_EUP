@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import pl.psi.hero.EconomyHero;
 
 public class EcoController implements PropertyChangeListener
 {
@@ -31,7 +32,7 @@ public class EcoController implements PropertyChangeListener
     @FXML
     Label roundNumberLabel;
 
-    public EcoController( final EconomyHero aHero1, final EconomyHero aHero2 )
+    public EcoController(final EconomyHero aHero1, final EconomyHero aHero2 )
     {
         economyEngine = new EconomyEngine( aHero1, aHero2 );
     }

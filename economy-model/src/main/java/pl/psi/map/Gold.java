@@ -13,8 +13,6 @@ public class Gold implements InteractableIf{
     @Override
     public void interact(EconomyHero hero, BoardEconomy board, Point point) {
         hero.addGold(amount);
-        board.removeObject(point);
+        board.removeInteractableAt(point);
     }
-
-
 }

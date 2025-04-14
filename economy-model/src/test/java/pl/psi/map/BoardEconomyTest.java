@@ -9,24 +9,28 @@ import org.mockito.Mockito;
 import pl.psi.Point;
 import pl.psi.hero.EconomyHero;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class BoardEconomyTest
 {
     private EconomyHero hero1;
     private EconomyHero hero2;
-    private BoardEconomy board;
-
 
     @BeforeEach
     void init()
     {
         hero1 = Mockito.mock( EconomyHero.class );
         hero2 = Mockito.mock( EconomyHero.class );
-        board = new BoardEconomy( hero1, hero2 );
     }
 
     @Test
     void unitsMoveProperly()
     {
+        BoardEconomy board = BoardEconomy.builder()
+                .addHero(hero1, 0)
+                .addHero(hero2,14)
+                .build();
         Mockito.when(hero1.getMoveRange()).thenReturn(10);
         Mockito.when(hero2.getMoveRange()).thenReturn(20);
         board.move(hero1, new Point( 3, 3 ) );
@@ -40,6 +44,10 @@ class BoardEconomyTest
     @Test
     void heroesCannotMove()
     {
+        BoardEconomy board = BoardEconomy.builder()
+                .addHero(hero1, 0)
+                .addHero(hero2,14)
+                .build();
         Mockito.when(hero1.getMoveRange()).thenReturn(1);
         board.move(hero1, new Point( 3, 3 ) );
         assertThat( board.getHero( new Point( 3, 3 ) )
@@ -49,31 +57,38 @@ class BoardEconomyTest
     @Test
     void setterSetsGoldCorrectly(){
 
-        Gold gold = new Gold(500);
-        board.setObject(gold,new Point(5,5));
-        assertThat(board.getObject(new Point(5,5))).isEqualTo(gold);
-    }
-
-    @Test
-    void heroGainsGoldUponPickup()
-    {
         EconomyHero hero1 = new EconomyHero(EconomyHero.Fraction.NECROPOLIS, 0);
-        board.setObject(new Gold(500),new Point(5,5));
+        Map<Point, InteractableIf> interactables = new HashMap<>();
+        interactables.put(new Point(5,5),new Gold(500));
+        interactables.put(new Point(10,10),new Gold(1000));
+        BoardEconomy board = BoardEconomy.builder()
+                .addHero(hero1, 0)
+                .addHero(hero2,14)
+                .addInteractables(interactables)
+                .build();
+
         board.move(hero1, new Point(5,5));
         assertThat(hero1.getGold()).isEqualTo(500);
+        board.move(hero1,new Point(10,10));
+        assertThat(hero1.getGold()).isEqualTo(1500);
     }
-
+    
     @Test
     void goldDissapearsUponPickup()
     {
-        Gold gold = new Gold(500);
+        Map<Point, InteractableIf> interactables = new HashMap<>();
         EconomyHero hero1 = new EconomyHero(EconomyHero.Fraction.NECROPOLIS, 0);
-        board.setObject(gold, new Point(5,5));
+        interactables.put(new Point(5,5),new Gold(500));
+        BoardEconomy board = BoardEconomy.builder()
+                .addHero(hero1, 0)
+                .addHero(hero2,14)
+                .addInteractables(interactables)
+                .build();
+
         board.move(hero1, new Point(5,5));
         board.move(hero1, new Point(10,10));
         board.move(hero1, new Point(5,5));
-        assertThat(board.getObject(new Point(5,5)).equals(gold)).isFalse();
-        assertThat(board.getHero(new Point(10,10)).isPresent());
+        assertThat(hero1.getGold()).isEqualTo(500);
 
     }
 

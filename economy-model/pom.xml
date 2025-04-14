@@ -49,6 +49,12 @@
             <version>3.22.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>11-ea+25</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
