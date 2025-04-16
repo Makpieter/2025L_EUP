@@ -17,8 +17,8 @@ public class BoardEconomy {
         this.map = initialMap;
     }
 
-    public Optional<Object> getHero(final Point point) {
-        return Optional.ofNullable(map.get(point));
+    public Optional<EconomyHero> getHero(final Point point) {
+        return Optional.ofNullable((EconomyHero) map.get(point));
     }
 
     public boolean canMove(final EconomyHero hero, final Point targetPoint) {
