@@ -14,48 +14,51 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Optional;
 
-public class EconomyBoardController implements PropertyChangeListener
-{
+public class EconomyBoardController implements PropertyChangeListener {
     private final BoardEconomyEngine gameEngine;
     @FXML
     private GridPane gridMap;
     @FXML
     private Button passButton;
 
-    public EconomyBoardController(final EconomyHero hero1, final EconomyHero hero2 )
-    {
-        gameEngine = new BoardEconomyEngine( hero1, hero2 );
+    public EconomyBoardController(final EconomyHero hero1, final EconomyHero hero2) {
+        gameEngine = new BoardEconomyEngine(hero1, hero2);
     }
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         refreshGui();
-        gameEngine.addObserver( this );
-        passButton.addEventHandler( MouseEvent.MOUSE_CLICKED, (e ) -> gameEngine.pass() );
+        gameEngine.addObserver(this);
+        passButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> gameEngine.pass());
     }
 
-    private void refreshGui()
-    {
+    private void refreshGui() {
         gridMap.getChildren()
                 .clear();
-        for( int x = 0; x < 15; x++ )
-        {
-            for( int y = 0; y < 10; y++ )
-            {
-                Point currentPoint = new Point( x, y );
-                Optional<EconomyHero> hero = gameEngine.getHero( currentPoint );
-                final MapTile mapTile = new MapTile( "" );
-                hero.ifPresent( c -> mapTile.setName( "hero1") );
-                if( gameEngine.isCurrentHero( currentPoint ) )
-                {
-                    mapTile.setBackground( Color.GREENYELLOW );
+        for (int x = 0; x < 15; x++) {
+            for (int y = 0; y < 10; y++) {
+                Point currentPoint = new Point(x, y);
+                Optional<EconomyHero> hero = gameEngine.getHero(currentPoint);
+                final MapTile mapTile = new MapTile("");
+                hero.ifPresent(c -> mapTile.setName("hero1"));
+                //TODO create methods to get the name of each hero
+                if (gameEngine.isCurrentHero(currentPoint)) {
+                    mapTile.setBackground(Color.GREENYELLOW);
                 }
-                if( gameEngine.canMove( currentPoint ) )
-                {
-                    mapTile.setBackground( Color.GREY );
-                    mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED,
-                            ( e ) -> { gameEngine.move( currentPoint ); } );
+                if (gameEngine.canMove(currentPoint)) {
+                    mapTile.setBackground(Color.GREY);
+                    mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                            (e) -> {
+                                gameEngine.move(currentPoint);
+                            });
+                }
+                if (gameEngine.isInteractable(currentPoint)) {
+                    mapTile.setBackground(Color.ROYALBLUE);
+                    mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED,
+                            (e) -> {
+                                gameEngine.move(currentPoint);
+                            });
+                    ;
                 }
 //                if( gameEngine.canAttack( currentPoint ) )
 //                {
@@ -63,14 +66,13 @@ public class EconomyBoardController implements PropertyChangeListener
 //                    mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED,
 //                            ( e ) -> { gameEngine.attack( currentPoint ); } );
 //                }
-                gridMap.add( mapTile, x, y );
+                gridMap.add(mapTile, x, y);
             }
         }
     }
 
     @Override
-    public void propertyChange( PropertyChangeEvent evt )
-    {
+    public void propertyChange(PropertyChangeEvent evt) {
         refreshGui();
     }
 }
