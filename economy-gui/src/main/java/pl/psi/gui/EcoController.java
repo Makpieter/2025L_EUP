@@ -43,23 +43,7 @@ public class EcoController implements PropertyChangeListener
         refreshGui();
         economyEngine.addObserver( EconomyEngine.ACTIVE_HERO_CHANGED, this );
         economyEngine.addObserver( EconomyEngine.HERO_BOUGHT_CREATURE, this );
-        economyEngine.addObserver( EconomyEngine.NEXT_ROUND, this );
-
-        readyButton.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
-            if( economyEngine.getRoundNumber() < 4 )
-            {
-                economyEngine.pass();
-            }
-            else
-            {
-                goToBattle();
-            }
-        } );
-    }
-
-    private void goToBattle()
-    {
-        EcoBattleConverter.startBattle( economyEngine.getPlayer1(), economyEngine.getPlayer2() );
+        economyEngine.addObserver( EconomyEngine.NEXT_ROUND, this );;
     }
 
     void refreshGui()
